@@ -2798,19 +2798,19 @@
           );
         }
 
-        const deviceLimit = scheduleSettings.deviceLimit ?? 1;
-        if (deviceLimit > 0 && !editingTicketId) {
-          const limitKey = "pq_gen_count_" + targetStr;
-          const genCount = parseInt(localStorage.getItem(limitKey) || "0");
-          if (genCount >= deviceLimit) {
-            toast(
-              "⚠️ This device has reached the limit of " +
-                deviceLimit +
-                " number(s) per day.",
-            );
-            return;
-          }
-        }
+        // const deviceLimit = scheduleSettings.deviceLimit ?? 1;
+        // if (deviceLimit > 0 && !editingTicketId) {
+        //   const limitKey = "pq_gen_count_" + targetStr;
+        //   const genCount = parseInt(localStorage.getItem(limitKey) || "0");
+        //   if (genCount >= deviceLimit) {
+        //     toast(
+        //       "⚠️ This device has reached the limit of " +
+        //         deviceLimit +
+        //         " number(s) per day.",
+        //     );
+        //     return;
+        //   }
+        // }
 
         const name = document.getElementById("inp-name").value.trim();
         const ben1Name = document.getElementById("inp-ben1-name").value.trim();
@@ -3214,11 +3214,11 @@
           myTicketIds.push(ref.key);
           localStorage.setItem("pq_my_ticket_ids", JSON.stringify(myTicketIds));
 
-          const limitKey = "pq_gen_count_" + targetStr;
-          localStorage.setItem(
-            limitKey,
-            (parseInt(localStorage.getItem(limitKey) || "0") + 1).toString(),
-          );
+          // const limitKey = "pq_gen_count_" + targetStr;
+          // localStorage.setItem(
+          //   limitKey,
+          //   (parseInt(localStorage.getItem(limitKey) || "0") + 1).toString(),
+          // );
 
           myTickets.unshift({ id: ref.key, ...td });
           renderTickets();

@@ -3174,7 +3174,8 @@
           date: targetStr,
           deviceId: getDeviceId(),
           expiresAt: expiry.toISOString(),
-          createdAt: firebase.database.ServerValue.TIMESTAMP,
+          createdAt: firebase.database.ServerValue.TIMESTAMP, // real, tamper-proof
+          issuedDateOverride: null, // ← NEW: editable, null by default
           disabled: false,
         };
 
@@ -3276,9 +3277,10 @@
               const d = new Date(t.date + "T00:00:00");
               const dl =
                 MONTHS[d.getMonth()].slice(0, 3) + " " + d.getDate() + ", " + d.getFullYear();
-              const issMs =
-                typeof t.createdAt === "number" ? t.createdAt : getServerTime().getTime();
-              const iss = new Date(issMs);
+                const issMs = t.issuedDateOverride
+                  ? new Date(t.issuedDateOverride).getTime()
+                  : (typeof t.createdAt === "number" ? t.createdAt : getServerTime().getTime());
+                const iss = new Date(issMs);
               const il = iss.toLocaleString("en-US", {
                 month: "short",
                 day: "numeric",

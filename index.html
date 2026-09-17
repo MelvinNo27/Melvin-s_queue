@@ -3161,23 +3161,22 @@
           const expiry = new Date(
             targetStr + "T" + (scheduleSettings.pmEnd || "17:00") + ":00",
           );
-          const td = {
-            number: num,
-            name,
-            ben1Name: ben1Name || "",
-            idType: idType || "",
-            idNumber: idNumber || "",
-            ben2Name: ben2Name || "",
-            idType2: idType2 || "",
-            idNumber2: idNumber2 || "",
-            time: selectedTime,
-            date: targetStr,
-            deviceId: getDeviceId(),
-            issuedAt: getServerTime().toISOString(),
-            expiresAt: expiry.toISOString(),
-            createdAt: firebase.database.ServerValue.TIMESTAMP,
-            disabled: false,
-          };
+        const td = {
+          number: num,
+          name,
+          ben1Name: ben1Name || "",
+          idType: idType || "",
+          idNumber: idNumber || "",
+          ben2Name: ben2Name || "",
+          idType2: idType2 || "",
+          idNumber2: idNumber2 || "",
+          time: selectedTime,
+          date: targetStr,
+          deviceId: getDeviceId(),
+          expiresAt: expiry.toISOString(),
+          createdAt: firebase.database.ServerValue.TIMESTAMP,
+          disabled: false,
+        };
 
           const ref = db.ref("tickets").push();
           try {
@@ -3274,20 +3273,18 @@
             const v = isTicketValid(t);
             const dis =
               disabledNumbers[t.date] && disabledNumbers[t.date][t.number];
-            const d = new Date(t.date + "T00:00:00");
-            const iss = new Date(t.issuedAt);
-            const dl =
-              MONTHS[d.getMonth()].slice(0, 3) +
-              " " +
-              d.getDate() +
-              ", " +
-              d.getFullYear();
-            const il = iss.toLocaleString("en-US", {
-              month: "short",
-              day: "numeric",
-              hour: "2-digit",
-              minute: "2-digit",
-            });
+              const d = new Date(t.date + "T00:00:00");
+              const dl =
+                MONTHS[d.getMonth()].slice(0, 3) + " " + d.getDate() + ", " + d.getFullYear();
+              const issMs =
+                typeof t.createdAt === "number" ? t.createdAt : getServerTime().getTime();
+              const iss = new Date(issMs);
+              const il = iss.toLocaleString("en-US", {
+                month: "short",
+                day: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+              });
             const sk = t.time === "AM" ? "amStart" : "pmStart",
               ek = t.time === "AM" ? "amEnd" : "pmEnd";
             const wl =
